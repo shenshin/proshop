@@ -6,11 +6,11 @@ import Rating from './Rating';
 
 const Product = ({ product }) => (
   <Card className="my-3 p-3 rounded">
-    <Link to={`/product/${product.id}`}>
+    <Link to={`/product/${product._id}`}>
       <Card.Img src={product.image} variant="top" />
     </Link>
     <Card.Body>
-      <Link to={`/product/${product.id}`}>
+      <Link to={`/product/${product._id}`}>
         <Card.Title as="div">
           <strong>{product.name}</strong>
         </Card.Title>
@@ -31,7 +31,7 @@ const Product = ({ product }) => (
 
 Product.propTypes = {
   product: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,

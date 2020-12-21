@@ -1,35 +1,29 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import products from './data/products.js';
+import colors from 'colors';
+import connectDB from './config/db.js';
+import productRoutes from './routes/productRoutes.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
-dotenv.config();
+dotenv.config(); // config file connection
+connectDB(); // mongo db connection
+const app = express(); // web server connection
 
-const app = express();
+// routes
 
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-app.get('/api/products', (req, res) => {
-  res.status(200);
-  res.type('application/json');
-  res.json(products);
-});
+app.use('/api/products', productRoutes);
 
-app.get('/api/products/:id', (req, res) => {
-  const { id } = req.params;
-  const product = products.find(p => p.id === id);
-  if (product) {
-    res.status(200);
-    res.type('application/json');
-    res.json(product);
-  } else {
-    res.status(404);
-    res.send(`Product with id ${id} does not exist`);
-  }
-  
-});
+// error handlers
+
+app.use(notFound);
+app.use(errorHandler);
+
+// launch web server
 
 const PORT = process.env.PORT || 5000;
 const mode = process.env.NODE_ENV;
-app.listen(PORT, console.log(`Express is running on port ${PORT}${mode ? ` in ${mode} mode` : ''}`));
+app.listen(PORT, console.log(` Express is running on port ${PORT}${mode ? ` in ${mode} mode` : ''} `.black.bgWhite));
