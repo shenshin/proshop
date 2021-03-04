@@ -1,6 +1,4 @@
-import React from 'react';
 import { Alert } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 
 const Message = ({ variant, children }) => (
   <Alert variant={variant}>
@@ -10,11 +8,6 @@ const Message = ({ variant, children }) => (
 
 Message.defaultProps = {
   variant: 'info',
-};
-
-Message.propTypes = {
-  variant: PropTypes.string,
-  children: PropTypes.string.isRequired,
 };
 
 export default Message;

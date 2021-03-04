@@ -1,29 +1,32 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Row, Col, Image, ListGroup, Card, Button,
+  Row, Col, Image, ListGroup, Card, Button, Form,
 } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listProductDetails } from '../actions/productActions';
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = () => {
+  const [qty, setQty] = useState(0);
+  const history = useHistory();
+  const { id } = useParams();
   const dispatch = useDispatch();
-
-  const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const { loading, error, product } = useSelector((state) => state.productDetails);
 
   useEffect(() => {
-    dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match]);
+    dispatch(listProductDetails(id));
+  }, [dispatch, id]);
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${id}?qty=${qty}`);
+  };
 
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      <Link className="btn btn-dark my-3" to="/">
         Go Back
       </Link>
       {loading ? (
@@ -32,16 +35,18 @@ const ProductScreen = ({ match }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <Row>
-          <Col md={6}>
+          {/* medium screens and up - set column relative width (total 12) */}
+          <Col md="6">
             <Image src={product.image} alt={product.name} fluid />
           </Col>
-          <Col md={3}>
+          <Col md="3">
+            {/* 'flush' removes border around */}
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h3>{product.name}</h3>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Rating value={product.rating} text={`${product.numReviews} reviews`} />
+                <Rating value={product.rating} numReviews={product.numReviews} />
               </ListGroup.Item>
               <ListGroup.Item>
                 Price: $
@@ -53,7 +58,7 @@ const ProductScreen = ({ match }) => {
               </ListGroup.Item>
             </ListGroup>
           </Col>
-          <Col md={3}>
+          <Col md="3">
             <Card>
               <ListGroup variant="flush">
 
@@ -78,8 +83,26 @@ const ProductScreen = ({ match }) => {
                   </Row>
                 </ListGroup.Item>
 
+                {/* creates a dropdown list with possible numbers of items to order */}
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col>
+                        <Form.Control as="select" value={qty} onChange={(e) => setQty(e.target.value)}>
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
+
                 <ListGroup.Item>
-                  <Button className="btn-block" type="button" disabled={!product.countInStock}>
+                  <Button onClick={addToCartHandler} className="btn-block" type="button" disabled={!product.countInStock}>
                     Add To Cart
                   </Button>
                 </ListGroup.Item>
@@ -91,14 +114,6 @@ const ProductScreen = ({ match }) => {
       )}
     </>
   );
-};
-
-ProductScreen.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 export default ProductScreen;

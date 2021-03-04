@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 import Rating from './Rating';
 
 const Product = ({ product }) => (
@@ -28,16 +27,5 @@ const Product = ({ product }) => (
     </Card.Body>
   </Card>
 );
-
-Product.propTypes = {
-  product: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    numReviews: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-  }).isRequired,
-};
 
 export default Product;

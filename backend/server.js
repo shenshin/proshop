@@ -4,7 +4,7 @@ import colors from 'colors';
 import connectDB from './config/db.js';
 import productRoutes from './routes/productRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-
+colors.enable();
 dotenv.config(); // config file connection
 connectDB(); // mongo db connection
 const app = express(); // web server connection
