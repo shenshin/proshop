@@ -5,7 +5,7 @@ Common flow to add Redux piece of state is to add:
   - actions
   - implement these actions in the 'screen'
 */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   Link, useHistory, useLocation, useParams,
 } from 'react-router-dom';
