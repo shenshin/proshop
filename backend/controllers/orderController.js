@@ -41,6 +41,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
+  // in addition get 'name' and 'email' from corresponding user at 'user' table
   const order = await Order.findById(req.params.id).populate(
     'user',
     'name email'

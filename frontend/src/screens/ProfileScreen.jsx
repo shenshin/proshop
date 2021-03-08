@@ -25,11 +25,11 @@ const ProfileScreen = () => {
   const { loading, error, user } = useSelector((state) => state.userDetails);
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success } = useSelector((state) => state.userUpdateProfile);
-  /*   const {
+  const {
     loading: loadingOrders,
     error: errorOrders,
     orders,
-  } = useSelector((state) => state.orderListMy); */
+  } = useSelector((state) => state.orderListMy);
 
   useEffect(() => {
     if (!userInfo) {
@@ -114,7 +114,7 @@ const ProfileScreen = () => {
           </Form>
         )}
       </Col>
-      {/* <Col md="9">
+      <Col md="9">
         <h2>My Orders</h2>
         {loadingOrders ? (
           <Loader />
@@ -164,7 +164,7 @@ const ProfileScreen = () => {
             </tbody>
           </Table>
         )}
-      </Col> */}
+      </Col>
     </Row>
   );
 };
