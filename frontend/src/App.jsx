@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Header from './components/Header';
@@ -14,11 +15,13 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 const App = () => (
   <Router>
     <Header />
-    {/* padding on top and bottom */}
     <main className="py-3">
       <Container>
         <Route path="/order/:id" component={OrderScreen} />
@@ -29,14 +32,31 @@ const App = () => (
         <Route path="/register" component={RegisterScreen} />
         <Route path="/profile" component={ProfileScreen} />
         <Route path="/product/:id" component={ProductScreen} />
-        {/* ? means that id is optional */}
         <Route path="/cart/:id?" component={CartScreen} />
         <Route path="/admin/userlist" component={UserListScreen} />
         <Route path="/admin/user/:id/edit" component={UserEditScreen} />
+        <Route
+          path="/admin/productlist"
+          component={ProductListScreen}
+          exact
+        />
+        <Route
+          path="/admin/productlist/:pageNumber"
+          component={ProductListScreen}
+          exact
+        />
+        <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
+        <Route path="/admin/orderlist" component={OrderListScreen} />
+        <Route path="/search/:keyword" component={HomeScreen} exact />
+        <Route path="/page/:pageNumber" component={HomeScreen} exact />
+        <Route
+          path="/search/:keyword/page/:pageNumber"
+          component={HomeScreen}
+          exact
+        />
         <Route path="/" component={HomeScreen} exact />
       </Container>
     </main>
-
     <Footer />
   </Router>
 );
