@@ -23,13 +23,13 @@ import {
   PRODUCT_TOP_FAIL,
 } from '../constants/productConstants';
 import { logout } from './userActions';
-
+// 6- add pageNumber param to action
 export const listProducts = (keyword = '', pageNumber = '') => async (
   dispatch,
 ) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
-
+    // 7- add pageNumber param to query string
     const { data } = await axios.get(
       `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`,
     );

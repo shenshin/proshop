@@ -30,6 +30,7 @@ export const productListReducer = (state = { products: [] }, action) => {
     case PRODUCT_LIST_REQUEST:
       return { loading: true, products: [] };
     case PRODUCT_LIST_SUCCESS:
+      // 8- add total pages and page to the state
       return {
         loading: false,
         products: action.payload.products,

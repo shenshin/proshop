@@ -5,7 +5,10 @@ import Product from '../models/productModel.js'
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 10
+  // adding paginate functionality steps
+  // 1- set page size
+  const pageSize = 2
+  // 2- get page number from query string othewise set to 1
   const page = Number(req.query.pageNumber) || 1
 
   const keyword = req.query.keyword
@@ -16,12 +19,13 @@ const getProducts = asyncHandler(async (req, res) => {
         },
       }
     : {}
-
+  // 3- get total number of products
   const count = await Product.countDocuments({ ...keyword })
+  // 4- get the desired # of products starting with ..
   const products = await Product.find({ ...keyword })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
-
+    .limit(pageSize) // number of products to show 
+    .skip(pageSize * (page - 1)) // to start with product #
+  // 5- add a) current page, b) total pages to response 
   res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
 
